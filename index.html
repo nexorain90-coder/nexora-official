@@ -302,50 +302,53 @@ document.addEventListener('click', function(e) {
   if (label.includes('download') && !requireNexoraLogin('Sign in to download Apps or Games.')) e.preventDefault();
   if ((label.includes('read book') || label.includes('download book')) &&
       !requireNexoraLogin('Sign in to read or download Books.')) e.preventDefault();
-});
-</script></body></html>
-<!-- EmailJS SDK -->
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-<script type="text/javascript">
-   (function(){
-      emailjs.init("LNGwewBxwMp3ooH0U");
-   })();
-</script>
+        </script>
+  </div> <!-- // profile-view -->
 
-<script>
-  let generatedOTP = "";
+  <!-- EmailJS SDK -->
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script type="text/javascript">
+    (function(){
+      emailjs.init("1RNGvmRnpAxJoOHU");
+    })();
+  </script>
 
-  function nexoraSendOtp() {
-    const userPhone = document.getElementById("nexoraphone").value;
-    
-    if(!userPhone) {
-      alert("Please enter your phone number or email first!");
-      return;
+  <script>
+    let generatedOTP = "";
+
+    function nexorasendotp() {
+      const userPhone = document.getElementById('nexoraphone').value;
+
+      if (!userPhone) {
+        alert("Please enter your phone number or email first!");
+        return;
+      }
+
+      generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
+
+      const templateParams = {
+        to_email: userPhone,
+        passcode: generatedOTP
+      };
+
+      emailjs.send('service_c7rfhyq', 'template_otp', templateParams)
+        .then(function(response) {
+          alert("OTP sent successfully in your email!");
+        }, function(error) {
+          alert("Failed to send OTP. Please try again.");
+          console.log(error);
+        });
     }
 
-    generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
+    function nexoraverifyotp() {
+      const userEnteredOTP = document.getElementById('nexoracp').value;
 
-    const templateParams = {
-      to_email: userPhone,
-      passcode: generatedOTP
-    };
-
-    emailjs.send('service_c7rfbyq', 'template_otp', templateParams)
-      .then(function(response) {
-         alert("OTP sent successfully to your email!");
-      }, function(error) {
-         alert("Failed to send OTP. Please try again.");
-         console.log(error);
-      });
-  }
-
-  function nexoraVerifyOtp() {
-    const userEnteredOTP = document.getElementById("nexoracp").value;
-    
-    if (userEnteredOTP === generatedOTP && generatedOTP !== "") {
-       alert("OTP Verified Successfully! (Login Successful)");
-    } else {
-       alert("Incorrect OTP! Please check again.");
+      if (userEnteredOTP === generatedOTP && generatedOTP !== "") {
+        alert("OTP verified successfully! Login successful.");
+      } else {
+        alert("Incorrect OTP! Please check again.");
+      }
     }
-  }
-</script>
+  </script>
+</body>
+</html>
