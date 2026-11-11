@@ -293,3 +293,13 @@ window.showPage = function(page) {
   if (page === 'profile' && !requireNexoraLogin('Sign in to open your profile.', 'profile')) return;
   return nexoraOriginalShowPage(page);
 };
+  // Automatically hide splash screen after page load
+window.addEventListener('DOMContentLoaded', function() {
+    setTimeout(function() {
+        const splash = document.getElementById('splash-screen') || document.querySelector('.splash-screen');
+        if (splash) {
+            splash.style.display = 'none';
+        }
+    }, 1000);
+});
+  
